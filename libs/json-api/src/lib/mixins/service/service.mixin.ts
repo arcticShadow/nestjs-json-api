@@ -1,5 +1,5 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
-import { EntityMetadata, Equal, In, QueryBuilder, SelectQueryBuilder } from 'typeorm';
+import { EntityMetadata, Equal, In, ObjectLiteral, QueryBuilder, SelectQueryBuilder } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { paramCase } from 'param-case';
 
@@ -321,6 +321,8 @@ export function serviceMixin(entity: Entity, transform: TransformMixin, connecti
 
       return apiResult;
     }
+
+    
 
     public async patchOne(options: ServiceOptions<RequestResourceData>): Promise<ResponseResourceObject> {
       const preparedResourceName = paramCase(this.repository.metadata.name);
@@ -794,6 +796,7 @@ export function serviceMixin(entity: Entity, transform: TransformMixin, connecti
         }).setParameters({ [paramName]: value });
       });
     }
+    public transformRaw(item: ObjectLiteral) { return this.transform.transformData(item) }
   }
 
   return mixin(MixinService);
